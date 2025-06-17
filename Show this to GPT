@@ -1,0 +1,806 @@
+docker run -it --rm --runtime=nvidia --network=host --gpus all \
+  -e UVLOOP_NO_EXTENSIONS=1 \                   
+  -p 9000:9000 \                                                                                                                     
+  -e DOCKER_PULL=always --pull always \                                                                                              
+  -e HF_HUB_CACHE=/root/.cache/huggingface \
+  -v /mnt/nvme/cache:/root/.cache \
+  dustynv/vllm:0.6.6.post1-r36.4.0 \
+    vllm serve llava-hf/llava-1.5-7b-hf \
+      --host=0.0.0.0 \
+      --port=9000 \
+      --dtype=auto \
+      --max-num-seqs=1 \
+      --max-model-len=1024 \
+      --chat-template-content-format=openai \
+      --trust-remote-code \
+      --gpu-memory-utilization=0.75 \
+      --uvicorn-log-level=debug \
+      --quantization=bitsandbytes \
+      --load-format=bitsandbytes
+0.6.6.post1-r36.4.0: Pulling from dustynv/vllm
+a186900671ab: Already exists 
+abfc62e83a35: Already exists 
+74a620336ec5: Already exists 
+fe121308cb36: Already exists 
+f7c2d0e75461: Already exists 
+b4b54c2ce1bc: Already exists 
+b8486767d54c: Already exists 
+5afc23653e08: Already exists 
+6f4afda31ab8: Already exists 
+5ab0f1ad651b: Already exists 
+fee11b5d43f0: Already exists 
+6caf14bdff0d: Already exists 
+2831fba73fef: Already exists 
+c802263afb5f: Already exists 
+734365b0bcbd: Already exists 
+8257c0bed710: Already exists 
+dabcc6739f92: Already exists 
+f4d532210c1f: Already exists 
+423451d0ebb1: Already exists 
+2290d242b3c1: Already exists 
+ee4860e4d02d: Already exists 
+55e29f40336f: Already exists 
+64d51ba79be4: Pull complete 
+5de55c7e9a89: Pull complete 
+ded667a2bf41: Pull complete 
+54d7e7e89417: Pull complete 
+b08bd162ba45: Pull complete 
+a8b4728e03e4: Pull complete 
+19f663995864: Pull complete 
+bfa91dc38c13: Pull complete 
+0c9a85d9079c: Pull complete 
+a25141879339: Pull complete 
+Digest: sha256:4ebfaf740c4f98e74e2d6f929893c50548c003ade40bb652df171755e18cdc00
+Status: Downloaded newer image for dustynv/vllm:0.6.6.post1-r36.4.0
+WARNING: Published ports are discarded when using host network mode
+/usr/local/lib/python3.10/dist-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+INFO 06-17 07:32:14 api_server.py:712] vLLM API server version 0.6.6.post1
+INFO 06-17 07:32:14 api_server.py:713] args: Namespace(subparser='serve', model_tag='llava-hf/llava-1.5-7b-hf', config='', host='0.0.0.0', port=9000, uvicorn_log_level='debug', allow_credentials=False, allowed_origins=['*'], allowed_methods=['*'], allowed_headers=['*'], api_key=None, lora_modules=None, prompt_adapters=None, chat_template=None, chat_template_content_format='openai', response_role='assistant', ssl_keyfile=None, ssl_certfile=None, ssl_ca_certs=None, ssl_cert_reqs=0, root_path=None, middleware=[], return_tokens_as_token_ids=False, disable_frontend_multiprocessing=False, enable_request_id_headers=False, enable_auto_tool_choice=False, tool_call_parser=None, tool_parser_plugin='', model='llava-hf/llava-1.5-7b-hf', task='auto', tokenizer=None, skip_tokenizer_init=False, revision=None, code_revision=None, tokenizer_revision=None, tokenizer_mode='auto', trust_remote_code=True, allowed_local_media_path=None, download_dir=None, load_format='bitsandbytes', config_format=<ConfigFormat.AUTO: 'auto'>, dtype='auto', kv_cache_dtype='auto', quantization_param_path=None, max_model_len=1024, guided_decoding_backend='xgrammar', logits_processor_pattern=None, distributed_executor_backend=None, worker_use_ray=False, pipeline_parallel_size=1, tensor_parallel_size=1, max_parallel_loading_workers=None, ray_workers_use_nsight=False, block_size=None, enable_prefix_caching=None, disable_sliding_window=False, use_v2_block_manager=True, num_lookahead_slots=0, seed=0, swap_space=4, cpu_offload_gb=0, gpu_memory_utilization=0.75, num_gpu_blocks_override=None, max_num_batched_tokens=None, max_num_seqs=1, max_logprobs=20, disable_log_stats=False, quantization='bitsandbytes', rope_scaling=None, rope_theta=None, hf_overrides=None, enforce_eager=False, max_seq_len_to_capture=8192, disable_custom_all_reduce=False, tokenizer_pool_size=0, tokenizer_pool_type='ray', tokenizer_pool_extra_config=None, limit_mm_per_prompt=None, mm_processor_kwargs=None, disable_mm_preprocessor_cache=False, enable_lora=False, enable_lora_bias=False, max_loras=1, max_lora_rank=16, lora_extra_vocab_size=256, lora_dtype='auto', long_lora_scaling_factors=None, max_cpu_loras=None, fully_sharded_loras=False, enable_prompt_adapter=False, max_prompt_adapters=1, max_prompt_adapter_token=0, device='auto', num_scheduler_steps=1, multi_step_stream_outputs=True, scheduler_delay_factor=0.0, enable_chunked_prefill=None, speculative_model=None, speculative_model_quantization=None, num_speculative_tokens=None, speculative_disable_mqa_scorer=False, speculative_draft_tensor_parallel_size=None, speculative_max_model_len=None, speculative_disable_by_batch_size=None, ngram_prompt_lookup_max=None, ngram_prompt_lookup_min=None, spec_decoding_acceptance_method='rejection_sampler', typical_acceptance_sampler_posterior_threshold=None, typical_acceptance_sampler_posterior_alpha=None, disable_logprobs_during_spec_decoding=None, model_loader_extra_config=None, ignore_patterns=[], preemption_mode=None, served_model_name=None, qlora_adapter_name_or_path=None, otlp_traces_endpoint=None, collect_detailed_traces=None, disable_async_output_proc=False, scheduling_policy='fcfs', override_neuron_config=None, override_pooler_config=None, compilation_config=None, kv_transfer_config=None, worker_cls='auto', generation_config=None, disable_log_requests=False, max_log_len=None, disable_fastapi_docs=False, enable_prompt_tokens_details=False, dispatch_function=<function serve at 0xffff194a1fc0>)
+INFO 06-17 07:32:15 api_server.py:199] Started engine process with PID 37
+config.json: 100%|████████████████████████████████████████████████████████████████████████████████| 950/950 [00:00<00:00, 2.87MB/s]
+preprocessor_config.json: 100%|███████████████████████████████████████████████████████████████████| 505/505 [00:00<00:00, 1.56MB/s]
+/usr/local/lib/python3.10/dist-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+INFO 06-17 07:32:33 config.py:510] This model supports multiple tasks: {'score', 'embed', 'reward', 'classify', 'generate'}. Defaulting to 'generate'.
+WARNING 06-17 07:32:33 config.py:588] bitsandbytes quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+WARNING 06-17 07:32:33 config.py:1051] Possibly too large swap space. 4.00 GiB out of the 7.44 GiB total CPU memory is allocated for the swap space.
+tokenizer_config.json: 100%|██████████████████████████████████████████████████████████████████| 1.45k/1.45k [00:00<00:00, 3.58MB/s]
+tokenizer.model: 100%|██████████████████████████████████████████████████████████████████████████| 500k/500k [00:00<00:00, 6.35MB/s]
+tokenizer.json: 100%|█████████████████████████████████████████████████████████████████████████| 3.62M/3.62M [00:02<00:00, 1.76MB/s]
+added_tokens.json: 100%|█████████████████████████████████████████████████████████████████████████| 41.0/41.0 [00:00<00:00, 123kB/s]
+special_tokens_map.json: 100%|████████████████████████████████████████████████████████████████████| 552/552 [00:00<00:00, 1.84MB/s]
+chat_template.jinja: 100%|████████████████████████████████████████████████████████████████████████| 674/674 [00:00<00:00, 1.94MB/s]
+INFO 06-17 07:32:43 config.py:510] This model supports multiple tasks: {'classify', 'generate', 'embed', 'score', 'reward'}. Defaulting to 'generate'.
+WARNING 06-17 07:32:43 config.py:588] bitsandbytes quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+WARNING 06-17 07:32:43 config.py:1051] Possibly too large swap space. 4.00 GiB out of the 7.44 GiB total CPU memory is allocated for the swap space.
+INFO 06-17 07:32:46 llm_engine.py:234] Initializing an LLM engine (v0.6.6.post1) with config: model='llava-hf/llava-1.5-7b-hf', speculative_config=None, tokenizer='llava-hf/llava-1.5-7b-hf', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.float16, max_seq_len=1024, download_dir=None, load_format=bitsandbytes, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=bitsandbytes, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=llava-hf/llava-1.5-7b-hf, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output"],"candidate_compile_sizes":[],"compile_sizes":[],"capture_sizes":[1],"max_capture_size":1}, use_cached_outputs=True, 
+generation_config.json: 100%|██████████████████████████████████████████████████████████████████████| 141/141 [00:00<00:00, 361kB/s]
+INFO 06-17 07:32:47 selector.py:120] Using Flash Attention backend.
+INFO 06-17 07:32:48 model_runner.py:1094] Starting to load model llava-hf/llava-1.5-7b-hf...
+INFO 06-17 07:32:49 selector.py:120] Using Flash Attention backend.
+WARNING 06-17 07:32:49 config.py:1051] Possibly too large swap space. 4.00 GiB out of the 7.44 GiB total CPU memory is allocated for the swap space.
+INFO 06-17 07:33:01 loader.py:1039] Loading weights with BitsAndBytes quantization.  May take a while ...
+INFO 06-17 07:33:02 weight_utils.py:251] Using model weights format ['*.safetensors']
+model-00003-of-00003.safetensors: 100%|███████████████████████████████████████████████████████| 4.18G/4.18G [30:20<00:00, 2.29MB/s]
+model-00001-of-00003.safetensors: 100%|███████████████████████████████████████████████████████| 4.99G/4.99G [34:45<00:00, 2.39MB/s]
+model-00002-of-00003.safetensors: 100%|███████████████████████████████████████████████████████| 4.96G/4.96G [35:59<00:00, 2.30MB/s]
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:11<00:22, 11.27s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:19<00:09,  9.64s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:26<00:00,  8.35s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:26<00:00,  8.87s/it]
+
+INFO 06-17 08:09:30 model_runner.py:1099] Loading model weights took 3.8022 GB
+processor_config.json: 100%|███████████████████████████████████████████████████████████████████████| 173/173 [00:00<00:00, 395kB/s]
+chat_template.json: 100%|█████████████████████████████████████████████████████████████████████████| 701/701 [00:00<00:00, 2.23MB/s]
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.48, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+INFO 06-17 08:10:58 worker.py:241] Memory profiling takes 87.85 seconds
+INFO 06-17 08:10:58 worker.py:241] the current vLLM instance can use total_gpu_memory (7.44GiB) x gpu_memory_utilization (0.75) = 5.58GiB
+INFO 06-17 08:10:58 worker.py:241] model weights take 3.80GiB; non_torch_memory takes -1.78GiB; PyTorch activation peak memory takes 0.59GiB; the rest of the memory reserved for KV Cache is 2.96GiB.
+INFO 06-17 08:10:58 gpu_executor.py:76] # GPU blocks: 379, # CPU blocks: 512
+INFO 06-17 08:10:58 gpu_executor.py:80] Maximum concurrency for 1024 tokens per request: 5.92x
+Task exception was never retrieved
+future: <Task finished name='Task-243' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-232' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-2' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-245' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-236' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-218' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-3' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-233' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-4' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-247' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-110' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-5' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-6' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-7' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-173' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-211' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-14' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-39' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-167' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-111' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-238' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-239' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-35' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-223' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-212' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-8' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-9' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-225' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-10' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-11' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-12' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-174' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-246' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-244' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-237' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-241' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-128' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-140' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-189' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-149' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-192' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-13' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-229' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-15' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-194' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-220' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-222' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-16' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-219' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-214' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-172' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-19' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-207' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-205' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-203' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-199' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-224' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-210' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-196' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-55' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-209' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-208' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-204' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-217' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-216' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-215' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-195' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-213' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-198' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-76' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-240' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-221' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-191' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-141' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-201' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-206' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-200' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-187' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-183' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-202' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-188' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-228' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-185' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-197' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Task exception was never retrieved
+future: <Task finished name='Task-193' coro=<MQLLMEngineClient.run_output_handler_loop() done, defined at /usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py:178> exception=ZMQError('Operation not supported')>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/vllm/engine/multiprocessing/client.py", line 184, in run_output_handler_loop
+    while await self.output_socket.poll(timeout=VLLM_RPC_TIMEOUT
+  File "/usr/local/lib/python3.10/dist-packages/zmq/_future.py", line 400, in poll
+    raise _zmq.ZMQError(_zmq.ENOTSUP)
+zmq.error.ZMQError: Operation not supported
+Traceback (most recent call last):
+  File "/usr/local/bin/vllm", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.10/dist-packages/vllm/scripts.py", line 201, in main
+    args.dispatch_function(args)
+  File "/usr/local/lib/python3.10/dist-packages/vllm/scripts.py", line 42, in serve
+    uvloop.run(run_server(args))
+  File "/usr/local/lib/python3.10/dist-packages/uvloop/__init__.py", line 82, in run
+    return loop.run_until_complete(wrapper())
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/usr/local/lib/python3.10/dist-packages/uvloop/__init__.py", line 61, in wrapper
+    return await main
+  File "/usr/local/lib/python3.10/dist-packages/vllm/entrypoints/openai/api_server.py", line 740, in run_server
+    async with build_async_engine_client(args) as engine_client:
+  File "/usr/lib/python3.10/contextlib.py", line 199, in __aenter__
+    return await anext(self.gen)
+  File "/usr/local/lib/python3.10/dist-packages/vllm/entrypoints/openai/api_server.py", line 118, in build_async_engine_client
+    async with build_async_engine_client_from_engine_args(
+  File "/usr/lib/python3.10/contextlib.py", line 199, in __aenter__
+    return await anext(self.gen)
+  File "/usr/local/lib/python3.10/dist-packages/vllm/entrypoints/openai/api_server.py", line 223, in build_async_engine_client_from_engine_args
+    raise RuntimeError(
+RuntimeError: Engine process failed to start. See stack trace for the root cause.
+
