@@ -3,5 +3,5 @@ docker run --runtime nvidia -it --rm -v /home/boonkiat/Downloads:/pic --network=
 ```
 
 ```sh
-docker run --runtime nvidia -it --rm -v /home/boonkiat/Downloads:/pic --network=host --name rag rag
+docker run --runtime nvidia -it --rm -v /home/boonkiat/Downloads/LLaVA2:/pic --network=host --name rag rag
 ```
