@@ -12,7 +12,7 @@ docker run --runtime nvidia -it -v /home/boonkiat/Downloads/LLaVA2:/pic --networ
 
 Exit the docker container, then use this line to transfer the test file to inside the docker.
 ```sh
-docker cp predict.py rag:llava/predict.py
+docker cp predict.py rag:workspace/llava/predict.py
 ```
 
 Get docker container id from:
