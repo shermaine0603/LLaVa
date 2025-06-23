@@ -15,6 +15,10 @@ Exit the docker container, then use this line to transfer the test file to insid
 docker cp predict.py rag:workspace/llava/predict.py
 ```
 
+```sh
+cp -r /home/boonkiat/Downloads/LLaVA2 rag:workspace/llava
+```
+
 Get docker container id from:
 ```sh
 docker ps -a
