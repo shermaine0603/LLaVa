@@ -8,6 +8,7 @@ docker build . -t rag
 
 ```sh
 docker run --runtime nvidia -it -v /home/boonkiat/Downloads/LLaVA2:/pic --network=host --name rag rag
+docker run --runtime nvidia -it --network=host --name rag rag
 ```
 
 Exit the docker container, then use this line to transfer the test file to inside the docker.
