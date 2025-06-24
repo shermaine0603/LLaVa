@@ -37,3 +37,8 @@ docker start rag
 ```sh
 docker exec -it rag bash
 ```
+
+```sh
+docker stop rag
+docker build . -t rag
+```
