@@ -20,6 +20,10 @@ docker cp predict.py rag:workspace/llava/predict.py
 cp -r /home/boonkiat/Downloads/LLaVA2 rag:workspace/llava
 ```
 
+```sh
+docker cp  ~/Downloads/LLaVA2 rag:/workspace/llava
+```
+
 Get docker container id from:
 ```sh
 docker ps -a
