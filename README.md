@@ -4,12 +4,13 @@ docker run --runtime nvidia -it --rm -v /home/boonkiat/Downloads:/pic --network=
 
 ```sh
 docker build . -t rag
+docker build . -t my-ollama
 ```
 
 ```sh
 docker run --runtime nvidia -it -v /home/boonkiat/Downloads/LLaVA2:/pic --network=host --name rag rag
 docker run --runtime nvidia -it --network=host --name rag rag
-docker run --runtime nvidia -it --name my-ollama ollama-con
+docker run --runtime nvidia -it --name ollama-con my-ollama
 ```
 
 Exit the docker container, then use this line to transfer the test file to inside the docker.
