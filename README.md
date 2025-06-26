@@ -56,3 +56,7 @@ docker build . -t my-ollama
 ```sh
 docker run -d --runtime=nvidia -v ollama:/root/.ollama -p 11434:11434 --name ollama-con my-ollama
 ```
+
+```sh
+docker exec -it ollama-con bash
+```
