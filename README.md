@@ -46,3 +46,13 @@ docker stop rag
 docker rm rag
 docker build . -t rag
 ```
+
+```sh
+docker stop ollama-con
+docker rm ollama-con
+docker build . -t my-ollama
+```
+
+```sh
+docker run -d --runtime=nvidia -v ollama:/root/.ollama -p 11434:11434 --name ollama-con my-ollama
+```
