@@ -60,3 +60,7 @@ docker run -d --runtime=nvidia -v ollama:/root/.ollama -p 11434:11434 --name oll
 ```sh
 docker exec -it ollama-con bash
 ```
+
+```sh
+docker cp ollama-con:/app/Images_and_Queries.xlsx .
+```
