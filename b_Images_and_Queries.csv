@@ -1,0 +1,101 @@
+﻿Image,Class (Location),Query,Answer
+1,Lobby,Is this a Lobby?,yes
+2,Prison Cell,Is this a Meeting Room?,no
+3,Toy Store,Is this a Florist?,no
+4,Meeting Room,Is this a Meeting Room?,yes
+5,Kindergarten,Is this a Florist?,no
+6,Grocery Store,Is this a Grocery Store?,yes
+7,Concert Hall,Is this a Movie Theatre?,no
+8,Locker Room,Is this a Locker Room?,yes
+9,Restaurant,Is this a Lobby?,no
+10,Office,Is this a Office?,yes
+11,Staircase,Is this a Staircase?,yes
+12,TV Studio,Is this a Movie Theatre?,no
+13,Music Studio,Is this a Music Studio?,yes
+14,Nursery,Is this a Dental Office?,no
+15,Shoe Shop,Is this a Shoe Shop?,yes
+16,Living Room,Is this a Movie Theatre?,no
+17,Garage,Is this a Wine Cellar?,no
+18,Subway,Is this a Wine Cellar?,no
+19,Movie Theatre,Is this a Movie Theatre?,yes
+20,Pool,Is this a Pool?,yes
+21,Laundromat,Is this a Laundromat?,yes
+22,Operating Room,Is this a Corridor?,no
+23,TV Studio,Is this a TV Studio?,yes
+24,Wine Cellar,Is this a Wine Cellar?,yes
+25,Video Store,Is this a Toy Store?,no
+26,Dental Office,Is this a Dental Office?,yes
+27,Church,Is this a Staircase?,no
+28,Deli,Is this a Restaurant Kitchen?,no
+29,Elevator,Is this a Corridor?,no
+30,Florist,Is this a Florist?,yes
+31,Hospital Room,Is this a Hospital Room?,yes
+32,Meeting Room,Is this a TV Studio?,no
+33,Restaurant Kitchen,Is this a Restaurant Kitchen?,yes
+34,Jewellery Store,Is this a Toy Store?,no
+35,Computer Room,Is this a Computer Room?,yes
+36,Library,Is this a Shoe Shop?,no
+37,Greenhouse,Is this a Greenhouse?,yes
+38,Mall,Is this a Bowling Alley?,yes
+39,Pantry,Is this a Pantry?,yes
+40,Casino,Is this a Laundromat?,no
+41,Laboratory,Is this a Casino?,no
+42,Game Room,Is this a Wine Cellar?,no
+43,Subway,Is this a Subway?,yes
+44,Gym,Is this a Kitchen?,no
+45,Corridor,Is this a Corridor?,yes
+46,Clothing Store,Is this a Deli?,no
+47,Cloister,Is this a Pool?,no
+48,Waiting Room,Is this a Classroom?,no
+49,Children Room,Is this a Classroom?,no
+50,Music Studio,Is this a Music Studio?,yes
+51,Wine Cellar,Is this a Garage?,no
+52,Bakery,Is this a Bakery?,yes
+53,Art Studio,Is this a Art Studio?,yes
+54,Fast Food Restaurant,Is this a Cloister?,no
+55,Closet,Is this a Closet?,yes
+56,Deli,Is this a Mall?,no
+57,Video Store,Is this a Grocery Store?,no
+58,Staircase,Is this a Staircase?,yes
+59,Train Station,Is this a Bus?,no
+60,Prison Cell,Is this a Prison Cell?,yes
+61,Museum,Is this a Mall?,no
+62,Living Room,Is this a Kitchen?,no
+63,Church,Is this a Church?,yes
+64,Florist,Is this a Florist?,yes
+65,Dining Room,Is this a Restaurant?,no
+66,Hair Salon,Is this a Hair Salon?,yes
+67,Dental Office,Is this a Art Studio?,no
+68,Lobby,Is this a Lobby?,yes
+69,Locker Room,Is this a Locker Room?,yes
+70,Airport,Is this a Bakery?,no
+71,Warehouse,Is this a Warehouse?,yes
+72,Pool,Is this a Pool?,yes
+73,Movie Theatre,Is this a Fast Food Restaurant?,no
+74,Auditorium,Is this a Auditorium?,yes
+75,Buffet,Is this a Buffet?,yes
+76,Elevator,Is this a Waiting Room?,no
+77,Computer Room,Is this a Bowling Alley?,no
+78,Grocery Store,Is this a Grocery Store?,yes
+79,Gym,Is this a Elevator?,no
+80,Garage,Is this a Kindergarten?,no
+81,Laundromat,Is this a Buffet?,no
+82,Kindergarten,Is this a Kindergarten?,yes
+83,Hospital Room,Is this a Cloister?,no
+84,Kitchen,Is this a Laboratory?,no
+85,Pantry,Is this a Pantry?,yes
+86,Bus,Is this a Subway?,no
+87,Cloister,Is this a Buffet?,no
+88,Train Station,Is this a Train Station?,yes
+89,Waiting Room,Is this a Waiting Room?,yes
+90,Bowling Alley,Is this a Shoe Shop?,no
+91,Classroom,Is this a Classroom?,yes
+92,Fast Food Restaurant,Is this a Fast Food Restaurant?,yes
+93,Jewellery Store,Is this a Warehouse?,no
+94,Laboratory,Is this a Laboratory?,yes
+95,Mall,Is this a Mall?,yes
+96,Restaurant Kitchen,Is this a Restaurant Kitchen?,yes
+97,Toy Store,Is this a Clothing Store?,no
+98,Warehouse,Is this a Store?,no
+99,Shoe Shop,Is this a Shoe Shop?,yes
+100,Closet,Is this a Closet?,yes
