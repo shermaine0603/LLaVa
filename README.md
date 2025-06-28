@@ -62,5 +62,11 @@ docker exec -it ollama-con bash
 ```
 
 ```sh
+docker stop ollama-con3
+docker rm ollama-con3
+docker build . -t my-ollama3
+```
+
+```sh
 docker cp ollama-con:/app/Images_and_Queries.xlsx .
 ```
