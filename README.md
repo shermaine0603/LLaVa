@@ -62,9 +62,9 @@ docker exec -it ollama-con bash
 ```
 
 ```sh
-docker stop ollama-con8
-docker rm ollama-con8
-docker build . -t my-ollama8
+docker stop ollama-con3
+docker rm ollama-con3
+docker build . -t my-ollama3
 ```
 
 ```sh
