@@ -70,3 +70,8 @@ docker build . -t my-ollama3
 ```sh
 docker cp ollama-con:/app/Images_and_Queries.xlsx .
 ```
+
+qwen_SG_read_excel.py
+```sh
+docker cp ./qwen_SG_read_excel.py test-1-con:/app/qwen_SG_read_excel.py
+```
