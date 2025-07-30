@@ -80,3 +80,6 @@ docker stop test-4-con
 docker rm test-4-con
 docker build . -t test-4
 ```
+```sh
+docker run --runtime=nvidia -p 7860:7860 --name test-4-con test-4
+```
