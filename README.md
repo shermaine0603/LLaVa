@@ -75,3 +75,8 @@ qwen_SG_read_excel.py
 ```sh
 docker cp ./qwen_SG_read_excel.py test-1-con:/app/qwen_SG_read_excel.py
 ```
+```sh
+docker stop test-4-con
+docker rm test-4-con
+docker build . -t test-4
+```
